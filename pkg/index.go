@@ -12,6 +12,24 @@ type ExcelIndex struct {
 	number   *NumberIndex
 }
 
+func (i *ExcelIndex) GenRange(cellValues [][]string) string {
+	if len(cellValues) == 0 {
+		return ""
+	}
+	rowCount := len(cellValues)
+	colCount := len(cellValues[0])
+
+	numIndex := i.number
+	alphabetIndex := i.alphabet
+	for i := 0; i < rowCount-1; i++ {
+		numIndex = numIndex.next()
+	}
+	for i := 0; i < colCount-1; i++ {
+		alphabetIndex = alphabetIndex.next()
+	}
+	return fmt.Sprintf("%s:%s", i.Value(), (&ExcelIndex{alphabet: alphabetIndex, number: numIndex}).Value())
+}
+
 func FromStrToIndex(str string) (*ExcelIndex, error) {
 	alphabet, err := newAlphabetIndex(str)
 	if err != nil {
