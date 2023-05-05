@@ -24,16 +24,28 @@ func FromStrToIndex(str string) (*ExcelIndex, error) {
 	return &ExcelIndex{alphabet: alphabet, number: number}, nil
 }
 
-func (i *ExcelIndex) Right() *ExcelIndex {
+func (i *ExcelIndex) Up() *ExcelIndex {
 	return &ExcelIndex{
-		alphabet: i.alphabet.next(),
-		number:   i.number,
+		alphabet: i.alphabet,
+		number:   i.number.prev(),
 	}
 }
 func (i *ExcelIndex) Down() *ExcelIndex {
 	return &ExcelIndex{
 		alphabet: i.alphabet,
 		number:   i.number.next(),
+	}
+}
+func (i *ExcelIndex) Right() *ExcelIndex {
+	return &ExcelIndex{
+		alphabet: i.alphabet.next(),
+		number:   i.number,
+	}
+}
+func (i *ExcelIndex) Left() *ExcelIndex {
+	return &ExcelIndex{
+		alphabet: i.alphabet.prev(),
+		number:   i.number,
 	}
 }
 
@@ -84,6 +96,13 @@ func (i *AlphabetIndex) next() *AlphabetIndex {
 	next_number := i.toNumber() + 1
 	return fromNumber(next_number)
 }
+func (i *AlphabetIndex) prev() *AlphabetIndex {
+	next_number := i.toNumber() - 1
+	if next_number < 0 {
+		return nil
+	}
+	return fromNumber(next_number)
+}
 
 func newAlphabetIndex(index string) (*AlphabetIndex, error) {
 	alphabet, err := extract_alphabet(index)
@@ -114,6 +133,9 @@ func (i *NumberIndex) Str() string {
 	return strconv.Itoa(i.value)
 }
 
+func (i *NumberIndex) prev() *NumberIndex {
+	return &NumberIndex{value: i.value - 1}
+}
 func (i *NumberIndex) next() *NumberIndex {
 	return &NumberIndex{value: i.value + 1}
 }

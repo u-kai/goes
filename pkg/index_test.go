@@ -29,6 +29,22 @@ func Test_セルからそのセルの下のセルを作成することができ�
 	}
 }
 
+func Test_セルからそのセルの上のセルを作成することができる(t *testing.T) {
+	index, _ := pkg.FromStrToIndex("A2")
+	upIndex := index.Up()
+	if upIndex.Value() != "A1" {
+		t.Fatalf("expected A1, but got %s", upIndex.Value())
+	}
+}
+
+func Test_セルからそのセルの左のセルを作成することができる(t *testing.T) {
+	index, _ := pkg.FromStrToIndex("B1")
+	leftIndex := index.Left()
+	if leftIndex.Value() != "A1" {
+		t.Fatalf("expected A1, but got %s", leftIndex.Value())
+	}
+}
+
 func Test_不正なセルのインデックスはerrorを返す(t *testing.T) {
 	index, err := pkg.FromStrToIndex("invalid")
 	if index != nil {
