@@ -25,9 +25,13 @@ func FromStrToIndex(str string) (*ExcelIndex, error) {
 }
 
 func (i *ExcelIndex) Up() *ExcelIndex {
+	prev := i.number.prev()
+	if prev == nil {
+		return nil
+	}
 	return &ExcelIndex{
 		alphabet: i.alphabet,
-		number:   i.number.prev(),
+		number:   prev,
 	}
 }
 func (i *ExcelIndex) Down() *ExcelIndex {
@@ -43,8 +47,12 @@ func (i *ExcelIndex) Right() *ExcelIndex {
 	}
 }
 func (i *ExcelIndex) Left() *ExcelIndex {
+	prev := i.alphabet.prev()
+	if prev == nil {
+		return nil
+	}
 	return &ExcelIndex{
-		alphabet: i.alphabet.prev(),
+		alphabet: prev,
 		number:   i.number,
 	}
 }
@@ -98,7 +106,7 @@ func (i *AlphabetIndex) next() *AlphabetIndex {
 }
 func (i *AlphabetIndex) prev() *AlphabetIndex {
 	next_number := i.toNumber() - 1
-	if next_number < 0 {
+	if next_number < 1 {
 		return nil
 	}
 	return fromNumber(next_number)
@@ -134,6 +142,9 @@ func (i *NumberIndex) Str() string {
 }
 
 func (i *NumberIndex) prev() *NumberIndex {
+	if i.value-1 < 1 {
+		return nil
+	}
 	return &NumberIndex{value: i.value - 1}
 }
 func (i *NumberIndex) next() *NumberIndex {

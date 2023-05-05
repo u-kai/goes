@@ -44,6 +44,20 @@ func Test_セルからそのセルの左のセルを作成することができ�
 		t.Fatalf("expected A1, but got %s", leftIndex.Value())
 	}
 }
+func Test_1セルよりも上のセルを指定した場合はnilを返す(t *testing.T) {
+	index, _ := pkg.FromStrToIndex("A1")
+	upIndex := index.Up()
+	if upIndex != nil {
+		t.Fatalf("expected A1, but got %v", upIndex)
+	}
+}
+func Test_Aセルよりも左のセルを指定した場合はnilを返す(t *testing.T) {
+	index, _ := pkg.FromStrToIndex("A1")
+	leftIndex := index.Left()
+	if leftIndex != nil {
+		t.Fatalf("expected A1, but got %s", leftIndex.Value())
+	}
+}
 
 func Test_不正なセルのインデックスはerrorを返す(t *testing.T) {
 	index, err := pkg.FromStrToIndex("invalid")
