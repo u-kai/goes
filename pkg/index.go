@@ -17,8 +17,12 @@ func (i *ExcelIndex) GenRange(cellValues [][]string) string {
 		return i.Value()
 	}
 	rowCount := len(cellValues)
-	colCount := len(cellValues[0])
-
+	colCount := 0
+	for _, row := range cellValues {
+		if len(row) > colCount {
+			colCount = len(row)
+		}
+	}
 	numIndex := i.number
 	alphabetIndex := i.alphabet
 	for i := 0; i < rowCount-1; i++ {
