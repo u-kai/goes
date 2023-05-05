@@ -14,7 +14,7 @@ type ExcelIndex struct {
 
 func (i *ExcelIndex) GenRange(cellValues [][]string) string {
 	if len(cellValues) == 0 {
-		return ""
+		return i.Value()
 	}
 	rowCount := len(cellValues)
 	colCount := len(cellValues[0])

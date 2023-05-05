@@ -83,3 +83,14 @@ func Test_文字列の2次元配列からセルの範囲文字列を作成でき
 		t.Fatalf("expected A1, but got %s", index.Value())
 	}
 }
+func Test_空の配列からセルの範囲文字列を作成する(t *testing.T) {
+	index, _ := pkg.FromStrToIndex("A1")
+	actual := index.GenRange([][]string{})
+	expected := "A1"
+	if expected != actual {
+		t.Fatalf("expected %s, but got %s", expected, actual)
+	}
+	if index.Value() != "A1" {
+		t.Fatalf("expected A1, but got %s", index.Value())
+	}
+}
