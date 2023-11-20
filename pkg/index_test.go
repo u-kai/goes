@@ -44,6 +44,13 @@ func Test_セルからそのセルの左のセルを作成することができ�
 		t.Fatalf("expected A1, but got %s", leftIndex.Value())
 	}
 }
+func Test_セルからそのセルの右下のセルを作成することができる(t *testing.T) {
+	index, _ := pkg.FromStrToIndex("A1")
+	rightDownIndex := index.Right().Down()
+	if rightDownIndex.Value() != "B2" {
+		t.Fatalf("expected B2, but got %s", rightDownIndex.Value())
+	}
+}
 func Test_1セルよりも上のセルを指定した場合はnilを返す(t *testing.T) {
 	index, _ := pkg.FromStrToIndex("A1")
 	upIndex := index.Up()
